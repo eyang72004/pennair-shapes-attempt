@@ -1,0 +1,31 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.vscode/
+outputs/*.mp4
+outputs/*.avi
+outputs/*.mov
+.DS_Store
+Thumbs.db
+
+# media artifacts
+outputs/*.mp4
+outputs/*.avi
+outputs/*.mov
+outputs/*.png
+outputs/*.jpg
+# source videos
+data/*.mp4
+
+
+# media artifacts
+outputs/*.mp4
+outputs/*.avi
+outputs/*.mov
+outputs/*.png
+outputs/*.jpg
+# source videos
+data/*.mp4
+
