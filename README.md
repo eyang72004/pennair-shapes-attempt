@@ -55,7 +55,7 @@ Algorithms (tried to explain in English)
 
 **Background-agnostic segmentation (extra credit)**Convert to **Lab**; k-means cluster (K=5 by default). Each cluster → binary mask; apply **gentle morphology (3×3)** to remove specks/close tiny gaps while preserving corners.
 
-**Contour gating**Keep only contours that pass:
+**Contour gating**: Keep only contours that pass:
 
 *   **Area** ≥ min\_area (default 300 px²)
     
@@ -64,7 +64,7 @@ Algorithms (tried to explain in English)
 *   **Low internal texture** (mean **Sobel** gradient ≤ adaptive percentile threshold) to reject grassy regions
     
 
-**Centers & radii**Center from image **moments** (fallback: enclosing circle center). Radius from either the **enclosing circle** or **ellipse minor-axis / 2** (depth-friendly).
+**Centers & radii**: Center from image **moments** (fallback: enclosing circle center). Radius from either the **enclosing circle** or **ellipse minor-axis / 2** (depth-friendly).
 
 **Robust shape labeling**
 
@@ -77,7 +77,7 @@ Algorithms (tried to explain in English)
     *   A **quad→triangle rescue** collapses quads with an extra micro-edge or a near-straight interior angle.
         
 
-**Confidence score**Weighted blend of normalized **area**, **solidity**, and **inverse texture** (lower interior gradient = higher score).
+**Confidence score**: Weighted blend of normalized **area**, **solidity**, and **inverse texture** (lower interior gradient = higher score).
 
 **3D (Part 4)**Intrinsics:
 
