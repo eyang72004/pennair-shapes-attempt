@@ -79,9 +79,15 @@ Algorithms (tried to explain in English)
 
 **Confidence score**: Weighted blend of normalized **area**, **solidity**, and **inverse texture** (lower interior gradient = higher score).
 
-**3D (Part 4)**Intrinsics:
+**3D (Part 4)** Intrinsics:
 
-`   fx = 2564.3186869  fy = 2569.70273111  cx = 0.0  cy = 0.0  R  = 10.0 inches (true circle radius)   `
+```text
+fx = 2564.3186869
+fy = 2569.70273111
+cx = 0.0
+cy = 0.0
+R  = 10.0 inches (true circle radius)
+```
 
 Given a detected circle pixel radius r\_px, estimate depth Z ≈ fx \* R / r\_px.Then X = (u - cx) \* Z / fx, Y = (v - cy) \* Z / fy.
 
