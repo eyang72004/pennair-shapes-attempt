@@ -10,7 +10,7 @@ Table of Contents
 
 *   [Overview](#overview)
     
-*   [Algorithms (tried to explain in English)](#algorithms-plain-english)
+*   [Algorithms (tried to explain in English)](#algorithms-tried-to-explain-in-english)
     
 *   [Project Layout](#project-layout)
     
