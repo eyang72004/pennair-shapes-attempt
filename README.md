@@ -336,7 +336,7 @@ Known Limitations
 *   k-means has minor randomness even with K-Means++; multiple attempts reduce variance but don’t eliminate it.
     
 
-How to Submit (GitHub + Embeds)
+How to Submit: A very Basic Idea (GitHub + Embeds)
 -------------------------------
 
 Initialize and push:
