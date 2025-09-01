@@ -90,14 +90,35 @@ Given a detected circle pixel radius r\_px, estimate depth Z ≈ fx \* R / r\_px
 Project Layout
 --------------
 
-`   pennair-shapes/  ├─ data/  │  ├─ PennAir_2024_App_Static.png  │  ├─ PennAir_2024_App_Dynamic.mp4  │  └─ PennAir_2024_App_Dynamic_Hard.mp4  ├─ outputs/                   # generated images/videos land here  ├─ src/  │  ├─ detector.py             # robust detection + labeling (fully commented)  │  ├─ depth.py                # circle -> (X, Y, Z) helper (fully commented)  │  ├─ tracker.py              # centroid tracker + EMA + trails (fully commented)  │  ├─ run_static.py           # Part 1 runner (fully commented)  │  ├─ run_video.py            # Part 2–3 runner; robust writers (fully commented)  │  └─ transcode_h264.py       # H.264/yuv420p transcoder (fully commented)  ├─ requirements.txt  └─ README.md   `
+```text  
+pennair-shapes-full-commented/  
+├─ data/  
+│  ├─ PennAir_2024_App_Static.png  
+│  ├─ PennAir_2024_App_Dynamic.mp4  
+│  └─ PennAir_2024_App_Dynamic_Hard.mp4  
+├─ outputs/                   # generated images/videos land here  
+├─ src/  
+│  ├─ detector.py             # robust detection + labeling (fully commented)  
+│  ├─ depth.py                # circle -> (X, Y, Z) helper (fully commented)  
+│  ├─ tracker.py              # centroid tracker + EMA + trails (fully commented)  
+│  ├─ run_static.py           # Part 1 runner (fully commented)  
+│  ├─ run_video.py            # Part 2–3 runner; robust writers (fully commented)  
+│  └─ transcode_h264.py       # H.264/yuv420p transcoder (fully commented)  
+├─ requirements.txt  
+└─ README.md
+```
 
 > **Note:** Only the **two challenge videos** and the **static PNG** belong in data/. You don’t need to commit generated videos unless you want to.
 
 Setup (Windows/PowerShell)
 --------------------------
 
-`   # 1) Open PowerShell in repo root  # 2) Create & activate venv  python -m venv .venv  .\.venv\Scripts\Activate  # 3) Install dependencies  pip install --upgrade pip  pip install -r requirements.txt  # 4) Ensure outputs/ exists  if (!(Test-Path outputs)) { mkdir outputs }   `
+```text
+# 1) Open PowerShell in repo root
+# 2) Create & activate venv  python -m venv .venv  .\.venv\Scripts\Activate
+# 3) Install dependencies  pip install --upgrade pip  pip install -r requirements.txt
+# 4) Ensure outputs/ exists  if (!(Test-Path outputs)) { mkdir outputs }
+```
 
 > **PowerShell line wrap:** end a line with a backtick \` to continue on the next line.
 
@@ -108,25 +129,43 @@ Quick Start
 
 **Minimal (labels + centers + outlines):**
 
-``   python src\run_static.py --in data\PennAir_2024_App_Static.png `    --out outputs\static_annotated.png   ``
+```text
+python src\run_static.py --in data\PennAir_2024_App_Static.png `
+--out outputs\static_annotated.png
+```
 
 **Add (X, Y, Z) for circles (ellipse radius recommended):**
 
-``   python src\run_static.py --in data\PennAir_2024_App_Static.png `    --out outputs\static_annotated.png --annotate_xyz --ellipse_radius   ``
+```text
+python src\run_static.py --in data\PennAir_2024_App_Static.png `
+--out outputs\static_annotated.png --annotate_xyz --ellipse_radius
+```
 
 **Plane-Z propagation (heuristic; annotate non-circles too):**
 
-``   python src\run_static.py --in data\PennAir_2024_App_Static.png `    --out outputs\static_annotated_plane.png --annotate_xyz `    --ellipse_radius --propagate_plane_z   ``
+```text
+python src\run_static.py --in data\PennAir_2024_App_Static.png `
+--out outputs\static_annotated_plane.png --annotate_xyz `
+--ellipse_radius --propagate_plane_z
+```
 
 ### Part 2–3: Video (Regular & Hard)
 
 **Regular dynamic video:**
 
-``   python src\run_video.py --in data\PennAir_2024_App_Dynamic.mp4 `    --out outputs\dynamic_annotated.mp4 --annotate_xyz --draw_trails `    --ellipse_radius --propagate_plane_z   ``
+```text
+python src\run_video.py --in data\PennAir_2024_App_Dynamic.mp4 `
+--out outputs\dynamic_annotated.mp4 --annotate_xyz --draw_trails `
+--ellipse_radius --propagate_plane_z
+```
 
 **Hard dynamic video:**
 
-``   python src\run_video.py --in data\PennAir_2024_App_Dynamic_Hard.mp4 `    --out outputs\dynamic_hard_annotated.mp4 --annotate_xyz --draw_trails `    --ellipse_radius --propagate_plane_z   ``
+```text   
+python src\run_video.py --in data\PennAir_2024_App_Dynamic_Hard.mp4 `
+--out outputs\dynamic_hard_annotated.mp4 --annotate_xyz --draw_trails `
+--ellipse_radius --propagate_plane_z
+```
 
 You’ll see progress messages like \[progress\] Processed 300 frames…. Outputs appear in outputs/.
 
@@ -138,28 +177,68 @@ Install (once):
 
 **Regular dynamic → H.264:**
 
-``   python src\transcode_h264.py --in outputs\dynamic_annotated.mp4 `    --out outputs\dynamic_annotated_h264.mp4   ``
+```text
+python src\transcode_h264.py --in outputs\dynamic_annotated.mp4 `
+--out outputs\dynamic_annotated_h264.mp4
+```
 
 **Hard dynamic → H.264:**
 
-``   python src\transcode_h264.py --in outputs\dynamic_hard_annotated.mp4 `    --out outputs\dynamic_hard_annotated_h264.mp4   ``
+```text   
+python src\transcode_h264.py --in outputs\dynamic_hard_annotated.mp4 `
+--out outputs\dynamic_hard_annotated_h264.mp4
+```
 
 > Optional: force a specific FPS (e.g., --fps 30) if your player is picky.
 
 If your MP4 is **tiny/corrupt** (e.g., “moov atom not found”), regenerate with an **AVI fallback** and transcode the AVI:
 
-``   python src\run_video.py --in data\PennAir_2024_App_Dynamic.mp4 `    --out outputs\dynamic_annotated.mp4 --annotate_xyz --draw_trails `    --ellipse_radius --propagate_plane_z --also_avi  python src\transcode_h264.py --in outputs\dynamic_annotated.avi `    --out outputs\dynamic_annotated_h264.mp4   ``
+```text
+python src\run_video.py --in data\PennAir_2024_App_Dynamic.mp4 `
+--out outputs\dynamic_annotated.mp4 --annotate_xyz --draw_trails `
+--ellipse_radius --propagate_plane_z --also_avi  python src\transcode_h264.py --in outputs\dynamic_annotated.avi `
+--out outputs\dynamic_annotated_h264.mp4
+```
 
 Command-Line Reference
 ----------------------
 
 ### run\_static.py
 
-FlagTypeDefaultDescription--instr**required**Input image path--outstr**required**Output image path--Kint5k-means clusters (Lab space)--min\_areaint300Min component area (px²)--solidity\_minfloat0.85Area / convex-hull area--ellipse\_radiusflagoffUse ellipse minor-axis / 2 for radius--annotate\_xyzflagoffOverlay (X, Y, Z) for circles--propagate\_plane\_zflagoffHeuristic: reuse last circle-Z for non-circles
+| Flag                  |    Type |      Default | Description                                    |
+| --------------------- | ------: | -----------: | ---------------------------------------------- |
+| `--in`                |   `str` | **required** | Input image path                               |
+| `--out`               |   `str` | **required** | Output image path                              |
+| `--K`                 |   `int` |          `5` | k-means clusters (Lab space)                   |
+| `--min_area`          |   `int` |        `300` | Min component area (px²)                       |
+| `--solidity_min`      | `float` |       `0.85` | Area / convex-hull area                        |
+| `--ellipse_radius`    |  `flag` |          off | Use ellipse minor-axis / 2 for radius          |
+| `--annotate_xyz`      |  `flag` |          off | Overlay (X, Y, Z) for circles                  |
+| `--propagate_plane_z` |  `flag` |          off | Heuristic: reuse last circle-Z for non-circles |
+
 
 ### run\_video.py
 
-FlagTypeDefaultDescription--instr**required**Input video path--outstr**required**Output MP4 path--Kint5k-means clusters--min\_areaint300Min area (px²)--solidity\_minfloat0.85Solidity threshold--ellipse\_radiusflagoffEllipse minor-axis / 2 for radius--annotate\_xyzflagoffWrite (X, Y, Z) inches--draw\_trailsflagoffDraw motion trails--also\_aviflagoffAlso export .avi (MJPG)--max\_framesint-1Process only N frames; -1 = all--max\_distfloat60.0Tracker association gate (px)--max\_lostint10Frames to keep unmatched track--ema\_alphafloat0.5EMA smoothing for centers/radius--trailint20Trail length (points)--propagate\_plane\_zflagoffReuse last circle-Z for non-circles
+| Flag                  |    Type |      Default | Description                         |
+| --------------------- | ------: | -----------: | ----------------------------------- |
+| `--in`                |   `str` | **required** | Input video path                    |
+| `--out`               |   `str` | **required** | Output MP4 path                     |
+| `--K`                 |   `int` |          `5` | k-means clusters                    |
+| `--min_area`          |   `int` |        `300` | Min area (px²)                      |
+| `--solidity_min`      | `float` |       `0.85` | Solidity threshold                  |
+| `--ellipse_radius`    |  `flag` |          off | Ellipse minor-axis / 2 for radius   |
+| `--annotate_xyz`      |  `flag` |          off | Write (X, Y, Z) inches              |
+| `--draw_trails`       |  `flag` |          off | Draw motion trails                  |
+| `--also_avi`          |  `flag` |          off | Also export `.avi` (MJPG)           |
+| `--max_frames`        |   `int` |         `-1` | Process only N frames; `-1` = all   |
+| `--max_dist`          | `float` |       `60.0` | Tracker association gate (px)       |
+| `--max_lost`          |   `int` |         `10` | Frames to keep unmatched track      |
+| `--ema_alpha`         | `float` |        `0.5` | EMA smoothing for centers/radius    |
+| `--trail`             |   `int` |         `20` | Trail length (points)               |
+| `--propagate_plane_z` |  `flag` |          off | Reuse last circle-Z for non-circles |
+| `--h264`              |  `flag` |          off | Write H.264 directly with imageio   |
+
+
 
 Troubleshooting (things that I have encountered personally are here as well)
 ---------------
@@ -256,11 +335,24 @@ How to Submit (GitHub + Embeds)
 
 Initialize and push:
 
-`   git init  git add .  git commit -m "PennAiR shapes solution (Parts 1–4 + extras)"  git branch -M main  git remote add origin https://github.com//pennair-shapes.git  git push -u origin main   `
+```text
+git init
+git add .
+git commit -m "PennAiR shapes solution (Parts 1–4 + extras)"
+git branch -M main
+git remote add origin https://github.com//pennair-shapes.git
+git push -u origin main
+```
 
 Embed media in README.md (GitHub may not autoplay; links still work):
 
-`   ## Results  ### Static (annotated)  ![Static annotated](outputs/static_annotated.png)  ### Static with plane-Z  ![Static annotated (plane Z)](outputs/static_annotated_plane.png)  ### Dynamic (H.264)    [Download the video](outputs/dynamic_annotated_h264.mp4)  ### Dynamic — Hard (H.264)    [Download the video](outputs/dynamic_hard_annotated_h264.mp4)   `
+```text
+## Results
+### Static (annotated)  ![Static annotated](outputs/static_annotated.png)
+### Static with plane-Z  ![Static annotated (plane Z)](outputs/static_annotated_plane.png)
+### Dynamic (H.264)    [Download the video](outputs/dynamic_annotated_h264.mp4)
+### Dynamic — Hard (H.264)    [Download the video](outputs/dynamic_hard_annotated_h264.mp4)
+```
 
 File-by-File Guide
 ------------------
