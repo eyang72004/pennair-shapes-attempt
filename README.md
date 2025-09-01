@@ -34,7 +34,7 @@ Table of Contents
     
 *   [Known Limitations](#known-limitations)
     
-*   [How to Submit (GitHub + Embeds)](#how-to-submit-a-basic-idea-github--embeds)
+*   [How to Submit: A Very Basic Idea (GitHub + Embeds)](#how-to-submit-a-very-basic-idea-github--embeds)
     
 *   [File-by-File Guide](#file-by-file-guide)
     
@@ -336,7 +336,7 @@ Known Limitations
 *   k-means has minor randomness even with K-Means++; multiple attempts reduce variance but don’t eliminate it.
     
 
-How to Submit: A very Basic Idea (GitHub + Embeds)
+How to Submit: A Very Basic Idea (GitHub + Embeds)
 -------------------------------
 
 Initialize and push:
