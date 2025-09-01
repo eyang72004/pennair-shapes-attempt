@@ -34,7 +34,7 @@ Table of Contents
     
 *   [Known Limitations](#known-limitations)
     
-*   [How to Submit (GitHub + Embeds)](#how-to-submit-github--embeds)
+*   [How to Submit (GitHub + Embeds)](#how-to-submit-a-basic-idea-github--embeds)
     
 *   [File-by-File Guide](#file-by-file-guide)
     
