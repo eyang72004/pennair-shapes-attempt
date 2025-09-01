@@ -10,7 +10,7 @@ Table of Contents
 
 *   [Overview](#overview)
     
-*   [Algorithms (plain English)](#algorithms-plain-english)
+*   [Algorithms (tried to explain in English)](#algorithms-plain-english)
     
 *   [Project Layout](#project-layout)
     
@@ -50,7 +50,7 @@ This repo detects **solid shapes** on grassy or arbitrary backgrounds, **traces 
 
 For video, it runs per-frame, keeps **stable IDs** with a centroid tracker, and can draw **motion trails**. MP4 export is robust; if a player refuses the MP4, a provided transcoder produces standard **H.264/yuv420p**.
 
-Algorithms (plain English)
+Algorithms (tried to explain in English)
 --------------------------
 
 **Background-agnostic segmentation (extra credit)**Convert to **Lab**; k-means cluster (K=5 by default). Each cluster → binary mask; apply **gentle morphology (3×3)** to remove specks/close tiny gaps while preserving corners.
